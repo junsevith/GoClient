@@ -5,8 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class GoController extends ServerCommunicator {
-
-
     public Label welcomeText;
 
     @FXML
