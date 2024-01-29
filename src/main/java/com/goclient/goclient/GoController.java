@@ -6,66 +6,55 @@ import javafx.scene.control.Label;
 import java.util.Map;
 import java.util.function.Function;
 
-public class GoController {
-    private final GoConnect connection = new GoConnect();
-
-    private Map<String, Function<String, Boolean>> actionMap = Map.of(
-            "MSG", this::displayMessage,
-            "MOV", this::takeMove,
-            "BRD", this::updateBoard,
-            "CNF", this::askYesNo,
-            "CHO", this::choseValue,
-            "SET", this::setValue
-    );
-
+public class GoController extends ServerCommunicator {
     @FXML
     protected void initialize() {
 
         recieveMessage();
     }
 
-    private void recieveMessage() {
-        boolean continueChecking = true;
-
-        while (continueChecking) {
-            String[] msg = connection.getMessage().split("_");
-            continueChecking = actionMap.get(msg[0]).apply(msg[1]);
-        }
-
+    @Override
+    protected boolean askQuestion(String question) {
+        return false;
     }
 
-
-    @FXML
-    private Label welcomeText;
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("oeo");
-        recieveMessage();
+    @Override
+    protected boolean askYesNo(String s) {
+        return false;
     }
 
+    @Override
+    protected boolean askChoose(String s) {
+        return false;
+    }
+
+    @Override
+    protected boolean askValue(String s) {
+        return false;
+    }
+
+    @Override
+    protected boolean takeMove(String move) {
+        return false;
+    }
+
+    @Override
     protected boolean displayMessage(String message) {
-        welcomeText.setText(message.split("#")[0]);
         return false;
     }
 
-    protected boolean takeMove(String move){
+    @Override
+    protected boolean displayBoard(String board) {
         return false;
     }
 
-    protected boolean updateBoard(String board){
-        return true;
-    }
-
-    private Boolean askYesNo(String s) {
+    @Override
+    protected boolean displayScore(String score) {
         return false;
     }
 
-    private Boolean setValue(String s) {
-        return false;
-    }
-
-    private Boolean choseValue(String s) {
+    @Override
+    protected boolean displayText(String text) {
         return false;
     }
 }

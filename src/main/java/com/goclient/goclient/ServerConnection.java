@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class GoConnect {
+public class ServerConnection {
     ArrayList<String> messages = new ArrayList<>(Arrays.asList(
             "MSG_Wiadomość przsyłana z GoConnect#cała reszta rzeczy",
             "MSG_oeoaoeo",
             "MSG_wiadomosc"
     ));
 
-    public GoConnect() {
+    public ServerConnection() {
         //łączenie z serwerem
     }
 
