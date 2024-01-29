@@ -42,4 +42,8 @@ public abstract class ServerCommunicator {
     protected abstract boolean displayScore(String score);
     protected abstract boolean displayText(String text);
     protected abstract boolean displayError(String message);
+
+    protected void sendMessage(String message) {
+        connection.reply(message);
+    }
 }

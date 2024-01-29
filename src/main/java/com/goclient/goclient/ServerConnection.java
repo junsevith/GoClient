@@ -6,9 +6,7 @@ import java.util.Random;
 
 public class ServerConnection {
     ArrayList<String> messages = new ArrayList<>(Arrays.asList(
-            "MSG_Wiadomość przsyłana z GoConnect#cała reszta rzeczy",
-            "MSG_oeoaoeo",
-            "MSG_wiadomosc"
+            "CHS_graj wczytaj oeo oao"
     ));
 
     public ServerConnection() {
