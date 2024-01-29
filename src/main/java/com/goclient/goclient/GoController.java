@@ -1,12 +1,14 @@
 package com.goclient.goclient;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-import java.util.Map;
-import java.util.function.Function;
-
 public class GoController extends ServerCommunicator {
+
+
+    public Label welcomeText;
+
     @FXML
     protected void initialize() {
 
@@ -40,6 +42,7 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean displayMessage(String message) {
+        welcomeText.setText(message);
         return false;
     }
 
@@ -56,5 +59,9 @@ public class GoController extends ServerCommunicator {
     @Override
     protected boolean displayText(String text) {
         return false;
+    }
+
+    public void onHelloButtonClick(ActionEvent actionEvent) {
+        recieveMessage();
     }
 }
