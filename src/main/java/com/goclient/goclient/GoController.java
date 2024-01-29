@@ -59,6 +59,11 @@ public class GoController extends ServerCommunicator {
         return false;
     }
 
+    @Override
+    protected boolean displayError(String message) {
+        return false;
+    }
+
     public void onHelloButtonClick(ActionEvent actionEvent) {
         recieveMessage();
     }

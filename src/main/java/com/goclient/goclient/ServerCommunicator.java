@@ -6,7 +6,7 @@ import java.util.function.Function;
 public abstract class ServerCommunicator {
     private final ServerConnection connection = new ServerConnection();
 
-    private Map<String, Function<String, Boolean>> actionMap = Map.of(
+    private final Map<String, Function<String, Boolean>> actionMap = Map.of(
             "ASK", this::askQuestion,
             "CNF", this::askYesNo,
             "CHS", this::askChoose,
@@ -15,7 +15,8 @@ public abstract class ServerCommunicator {
             "MSG", this::displayMessage,
             "BRD", this::displayBoard,
             "SCR", this::displayScore,
-            "DSP", this::displayText
+            "DSP", this::displayText,
+            "ERR", this::displayError
     );
 
 
@@ -40,4 +41,5 @@ public abstract class ServerCommunicator {
     protected abstract boolean displayBoard(String board);
     protected abstract boolean displayScore(String score);
     protected abstract boolean displayText(String text);
+    protected abstract boolean displayError(String message);
 }
