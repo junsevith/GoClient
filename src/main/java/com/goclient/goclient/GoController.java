@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -26,6 +27,16 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean askQuestion(String question) {
+        container.getChildren().add(new Label(question));
+        TextField textField = new TextField();
+        container.getChildren().add(textField);
+        Button confirm = new Button("Potwierdź");
+        container.getChildren().add(confirm);
+        confirm.setOnMouseClicked(event -> {
+            sendMessage(textField.getText());
+            recieveMessage();
+        });
+
         System.out.println(question);
         return false;
     }
