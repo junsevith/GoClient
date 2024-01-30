@@ -21,17 +21,18 @@ public class GoController extends ServerCommunicator {
 
     @FXML
     protected void initialize() {
-
         recieveMessage();
     }
 
     @Override
     protected boolean askQuestion(String question) {
+        System.out.println(question);
         return false;
     }
 
     @Override
     protected boolean askYesNo(String s) {
+        System.out.println(s);
         return false;
     }
 
@@ -48,49 +49,54 @@ public class GoController extends ServerCommunicator {
             buttons.add(button);
             button.setOnMouseClicked(event -> {
                 sendMessage(choice);
+                recieveMessage();
             });
             buttonContainer.getChildren().add(button);
         }
         container.getChildren().add(buttonContainer);
-
-
         return false;
     }
 
     @Override
     protected boolean askValue(String s) {
+        System.out.println(s);
         return false;
     }
 
     @Override
     protected boolean takeMove(String move) {
+        System.out.println(move);
         return false;
     }
 
     @Override
     protected boolean displayMessage(String message) {
-        welcomeText.setText(message);
-        return false;
+        System.out.println(message);
+        return true;
     }
 
     @Override
     protected boolean displayBoard(String board) {
-        return false;
+        System.out.println(board);
+        return true;
     }
 
     @Override
     protected boolean displayScore(String score) {
-        return false;
+        System.out.println(score);
+        return true;
     }
 
     @Override
     protected boolean displayText(String text) {
-        return false;
+        System.out.println(text);
+        return true;
     }
 
     @Override
     protected boolean displayError(String message) {
-        return false;
+        System.out.println(message);
+        return true;
     }
 
     public void onHelloButtonClick(ActionEvent actionEvent) {
@@ -106,5 +112,11 @@ public class GoController extends ServerCommunicator {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+    }
+
+    Stage stage;
+    public void setStage(Stage stage) {
+        this.stage = stage;
+        stage.setOnCloseRequest(event -> sendMessage("exit"));
     }
 }
