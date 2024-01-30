@@ -32,6 +32,21 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean askYesNo(String s) {
+        container.getChildren().add(new Label(s));
+        HBox buttonContainer = new HBox();
+        Button yes = new Button("Tak");
+        yes.setOnMouseClicked(event -> {
+            sendMessage("yes");
+            recieveMessage();
+        });
+        Button no = new Button("Nie");
+        no.setOnMouseClicked(event -> {
+            sendMessage("no");
+            recieveMessage();
+        });
+        buttonContainer.getChildren().add(yes);
+        buttonContainer.getChildren().add(no);
+        container.getChildren().add(buttonContainer);
         System.out.println(s);
         return false;
     }
