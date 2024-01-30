@@ -80,11 +80,21 @@ public class GoController extends ServerCommunicator {
             buttonContainer.getChildren().add(button);
         }
         container.getChildren().add(buttonContainer);
+        System.out.println(s);
         return false;
     }
 
     @Override
     protected boolean askValue(String s) {
+        container.getChildren().add(new Label(s));
+        TextField textField = new TextField();
+        container.getChildren().add(textField);
+        Button confirm = new Button("Potwierdź");
+        container.getChildren().add(confirm);
+        confirm.setOnMouseClicked(event -> {
+            sendMessage(textField.getText());
+            recieveMessage();
+        });
         System.out.println(s);
         return false;
     }
