@@ -6,12 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class GoController extends ServerCommunicator {
@@ -37,7 +37,11 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean askChoose(String s) {
-        List<String> choices = Arrays.asList(s.split(" "));
+        ArrayList<String> choices = new ArrayList<>(List.of(s.split("%")));
+        container.getChildren().add(new Label(choices.getFirst()));
+        choices.removeFirst(); // tutaj jest pytanie do wyświetlenia
+        choices.removeLast(); // tutaj są informacje do konsoli, cała reszta do dostępne opcje
+        HBox buttonContainer = new HBox();
         List<Button> buttons = new ArrayList<>();
         for (String choice : choices) {
             Button button = new Button(choice);
@@ -45,8 +49,9 @@ public class GoController extends ServerCommunicator {
             button.setOnMouseClicked(event -> {
                 sendMessage(choice);
             });
-            container.getChildren().add(button);
+            buttonContainer.getChildren().add(button);
         }
+        container.getChildren().add(buttonContainer);
 
 
         return false;

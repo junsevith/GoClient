@@ -1,5 +1,6 @@
 package com.goclient.goclient;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -25,8 +26,22 @@ public abstract class ServerCommunicator {
         boolean continueChecking = true;
 
         while (continueChecking) {
-            String[] msg = connection.getMessage().split("_");
-            continueChecking = actionMap.get(msg[0]).apply(msg[1]);
+            String input;
+            try {
+                input = connection.getMessage();
+            } catch (IOException e) {
+                input = "ERR_Unable to read message from server";
+            }
+            if (input == null) {
+                System.out.println("Server disconnected");
+                System.exit(0);
+            }
+            String[] msg = input.split("_");
+            if (msg.length > 1) {
+                input = msg[1];
+            }
+//            System.out.println(msg[0] + "_" + input);
+            continueChecking = actionMap.get(msg[0]).apply(input);
         }
 
     }
@@ -44,6 +59,7 @@ public abstract class ServerCommunicator {
     protected abstract boolean displayError(String message);
 
     protected void sendMessage(String message) {
+        System.out.println(message);
         connection.reply(message);
     }
 }
