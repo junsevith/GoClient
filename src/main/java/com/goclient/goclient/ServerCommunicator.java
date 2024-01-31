@@ -41,6 +41,9 @@ public abstract class ServerCommunicator {
                 input = msg[1];
             }
 //            System.out.println(msg[0] + "_" + input);
+            if (msg.length>2 && msg[2].equals("true")) {
+                reset();
+            }
             continueChecking = actionMap.get(msg[0]).apply(input);
         }
 
@@ -57,6 +60,8 @@ public abstract class ServerCommunicator {
     protected abstract boolean displayScore(String score);
     protected abstract boolean displayText(String text);
     protected abstract boolean displayError(String message);
+
+    protected abstract void reset();
 
     protected void sendMessage(String message) {
         System.out.println(message);

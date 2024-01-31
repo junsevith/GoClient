@@ -203,6 +203,11 @@ public class GoController extends ServerCommunicator {
         return true;
     }
 
+    @Override
+    protected void reset() {
+        container.getChildren().clear();
+    }
+
     public void onHelloButtonClick(ActionEvent actionEvent) {
         recieveMessage();
         Stage stage = new Stage();
