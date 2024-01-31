@@ -41,6 +41,8 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean askQuestion(String question) {
+        Label ask = new Label(question);
+        ask.setStyle("-fx-font-size: 15;");
         container.getChildren().add(new Label(question));
         TextField textField = new TextField();
         container.getChildren().add(textField);
@@ -81,7 +83,7 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean askChoose(String s) {
-        container.setSpacing(10);
+        container.setSpacing(5);
         ArrayList<String> choices = new ArrayList<>(List.of(s.split("%")));
         Label question = new Label(choices.getFirst());
         question.setStyle("-fx-font-size: 15;");
@@ -136,6 +138,9 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean displayBoard(String board) {
+        container.setSpacing(0);
+        //container.setStyle("-fx-background-color: lightblue;");
+        container.setAlignment(Pos.CENTER);
         ArrayList<String> lines = new ArrayList<>(List.of(board.split("\\|")));
         ArrayList<ArrayList<String>> tiles = new ArrayList<>();
         for (String line : lines) {
