@@ -108,6 +108,7 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean takeMove(String move) {
+        waitingForAnswer = true;
         System.out.println(move);
         return false;
     }
@@ -122,7 +123,7 @@ public class GoController extends ServerCommunicator {
     protected boolean displayBoard(String board) {
         ArrayList<String> lines = new ArrayList<>(List.of(board.split("\\|")));
         ArrayList<ArrayList<String>> tiles = new ArrayList<>();
-        for(String line : lines) {
+        for (String line : lines) {
             tiles.add(new ArrayList<>(List.of(line.split(" "))));
 //            System.out.println(Arrays.toString(line.split(" ")));
         }
@@ -134,9 +135,9 @@ public class GoController extends ServerCommunicator {
         Group group = new Group();
         container.getChildren().add(group);
         group.getChildren().add(canvas);
-        group.getChildren().add(drawStones(tiles,boardSize,cellSize));
+        group.getChildren().add(drawStones(tiles, boardSize, cellSize));
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        drawBoard(gc,boardSize,cellSize);
+        drawBoard(gc, boardSize, cellSize);
         System.out.println(board);
         return true;
     }
@@ -175,6 +176,7 @@ public class GoController extends ServerCommunicator {
     }
 
     Stage stage;
+
     public void setStage(Stage stage) {
         this.stage = stage;
         stage.setOnCloseRequest(event -> sendMessage("exit"));
@@ -197,26 +199,41 @@ public class GoController extends ServerCommunicator {
         gc.strokeRect(0, 0, boardSize * cellSize, boardSize * cellSize);
     }
 
-    public Group drawStones(ArrayList<ArrayList<String >> board, int boardSize, int cellSize){
-            Group group = new Group();
-            for (int i = 0; i < boardSize; i++) {
-                for (int j = 0; j < boardSize; j++) {
-                    double radius = cellSize / 4.0;
-                    double x = i * cellSize + cellSize / 2.0;
-                    double y = j * cellSize + cellSize / 2.0;
-                    String stoneString = board.get(i).get(j).strip();
-                    Map<String,Color> colorMap = Map.of(
-                            "N",Color.TRANSPARENT,
-                            "B", Color.BLACK,
-                            "W",Color.WHITE
-                    );
-                    StoneGUI stone = new StoneGUI(colorMap.get(stoneString), x, y, radius, i, j);
-                    stone.setOnMouseClicked();
-                    group.getChildren().add(stone);
+    public Group drawStones(ArrayList<ArrayList<String>> board, int boardSize, int cellSize) {
+        Group group = new Group();
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                double radius = cellSize / 4.0;
+                double x = i * cellSize + cellSize / 2.0;
+                double y = j * cellSize + cellSize / 2.0;
+                String stoneString = board.get(i).get(j).strip();
+                Map<String, Color> colorMap = Map.of(
+                        "N", Color.TRANSPARENT,
+                        "B", Color.BLACK,
+                        "W", Color.WHITE
+                );
+                StoneGUI stone = new StoneGUI(colorMap.get(stoneString), x, y, radius, i, j);
+                stone.setOnMouseClicked(event -> {
+                    if (waitingForAnswer()) {
+                        sendMessage(stone.getX() + 1 + " " + stone.getY() + 1);
+                        recieveMessage();
+                    }
+                });
+                group.getChildren().add(stone);
 //                    board[i][j] = stone;
-                }
             }
-            return group;
+        }
+        return group;
 
+    }
+
+    boolean waitingForAnswer = false;
+
+    private boolean waitingForAnswer() {
+        if (waitingForAnswer) {
+            waitingForAnswer = false;
+            return true;
+        }
+        return false;
     }
 }
