@@ -3,6 +3,7 @@ package com.goclient.goclient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -56,8 +57,11 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean askYesNo(String s) {
-        container.getChildren().add(new Label(s));
-        HBox buttonContainer = new HBox();
+        Label question = new Label(s);
+        question.setStyle("-fx-font-size: 15;");
+        container.getChildren().add(question);
+        HBox buttonContainer = new HBox(10);
+        buttonContainer.setAlignment(Pos.CENTER);
         Button yes = new Button("Tak");
         yes.setOnMouseClicked(event -> {
             sendMessage("yes");
@@ -78,10 +82,13 @@ public class GoController extends ServerCommunicator {
     @Override
     protected boolean askChoose(String s) {
         ArrayList<String> choices = new ArrayList<>(List.of(s.split("%")));
-        container.getChildren().add(new Label(choices.getFirst()));
+        Label question = new Label(choices.getFirst());
+        question.setStyle("-fx-font-size: 15;");
+        container.getChildren().add(question);
         choices.removeFirst(); // tutaj jest pytanie do wyświetlenia
         choices.removeLast(); // tutaj są informacje do konsoli, cała reszta do dostępne opcje
-        HBox buttonContainer = new HBox();
+        HBox buttonContainer = new HBox(10);
+        buttonContainer.setAlignment(Pos.CENTER);
         List<Button> buttons = new ArrayList<>();
         for (String choice : choices) {
             Button button = new Button(choice);
@@ -139,15 +146,21 @@ public class GoController extends ServerCommunicator {
         Canvas canvas = new Canvas(640, 600);
 
         container.getChildren().clear();
+        Label comm = new Label(communicat);
+        comm.setStyle("-fx-font-size: 20;");
+        container.getChildren().add(comm);
         Group group = new Group();
         container.getChildren().add(group);
         group.getChildren().add(canvas);
         group.getChildren().add(drawStones(tiles, boardSize, cellSize));
         GraphicsContext gc = canvas.getGraphicsContext2D();
         drawBoard(gc, boardSize, cellSize);
-        container.getChildren().add(new Label("Wynik czarnego: " + Integer.toString(blackScore)));
-        container.getChildren().add(new Label("Wynik białego: " + Integer.toString(whiteScore)));
-        container.getChildren().add(new Label(communicat));
+        Label bS = new Label("Wynik czarnego: " + Integer.toString(blackScore));
+        bS.setStyle("-fx-font-size: 15;");
+        Label wS = new Label("Wynik białego: " + Integer.toString(whiteScore));
+        wS.setStyle("-fx-font-size: 15;");
+        container.getChildren().add(bS);
+        container.getChildren().add(wS);
         System.out.println(board);
         return true;
     }
