@@ -85,11 +85,12 @@ public class GoController extends ServerCommunicator {
     protected boolean askChoose(String s) {
         container.setSpacing(5);
         ArrayList<String> choices = new ArrayList<>(List.of(s.split("%")));
+        System.out.println(choices);
         Label question = new Label(choices.getFirst());
         question.setStyle("-fx-font-size: 15;");
         container.getChildren().add(question);
         choices.removeFirst(); // tutaj jest pytanie do wyświetlenia
-        choices.removeLast(); // tutaj są informacje do konsoli, cała reszta do dostępne opcje
+//        choices.removeLast(); // tutaj są informacje do konsoli, cała reszta do dostępne opcje
         HBox buttonContainer = new HBox(10);
         buttonContainer.setAlignment(Pos.CENTER);
         List<Button> buttons = new ArrayList<>();

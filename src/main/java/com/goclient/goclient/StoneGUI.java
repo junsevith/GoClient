@@ -27,4 +27,8 @@ public class StoneGUI extends Circle {
         this.setCenterY(y);
         this.setRadius(radius);
     }
+
+    public void setColor(Color color){
+        setFill(color);
+    }
 }
