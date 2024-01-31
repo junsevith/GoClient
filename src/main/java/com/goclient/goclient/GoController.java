@@ -4,11 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -113,6 +116,18 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean displayBoard(String board) {
+        ArrayList<String> lines = new ArrayList<>(List.of(board.split("|")));
+        ArrayList<ArrayList<String>> tiles = new ArrayList<>();
+        for(String line : lines) {
+            tiles.add(new ArrayList<>(List.of(line.split(" "))));
+        }
+        int boardSize = lines.size();
+        int cellSize = 600 / boardSize;
+        Canvas canvas = new Canvas(640, 600);
+        container.getChildren().clear();
+        container.getChildren().add(canvas);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        drawBoard(gc,boardSize,cellSize);
         System.out.println(board);
         return true;
     }
@@ -154,5 +169,22 @@ public class GoController extends ServerCommunicator {
     public void setStage(Stage stage) {
         this.stage = stage;
         stage.setOnCloseRequest(event -> sendMessage("exit"));
+    }
+
+    public void drawBoard(GraphicsContext gc, int boardSize, int cellSize) {
+        gc.setFill(Color.BURLYWOOD);
+        gc.fillRect(0, 0, boardSize * cellSize, boardSize * cellSize);
+
+        gc.setStroke(Color.BLACK);
+        for (int k = 0; k < boardSize; k++) {
+            double xLine = k * cellSize + cellSize / 2.0;
+            double yLine = k * cellSize + cellSize / 2.0;
+
+            gc.strokeLine(xLine, 0, xLine, (boardSize - 1) * cellSize + cellSize);
+            gc.strokeLine(0, yLine, (boardSize - 1) * cellSize + cellSize, yLine);
+        }
+        gc.setStroke(Color.BLACK);
+        gc.setLineWidth(10);
+        gc.strokeRect(0, 0, boardSize * cellSize, boardSize * cellSize);
     }
 }
