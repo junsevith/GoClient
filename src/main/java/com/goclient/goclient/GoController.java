@@ -3,6 +3,7 @@ package com.goclient.goclient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,11 +13,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class GoController extends ServerCommunicator {
     public Label welcomeText;
@@ -116,16 +120,21 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean displayBoard(String board) {
-        ArrayList<String> lines = new ArrayList<>(List.of(board.split("|")));
+        ArrayList<String> lines = new ArrayList<>(List.of(board.split("\\|")));
         ArrayList<ArrayList<String>> tiles = new ArrayList<>();
         for(String line : lines) {
             tiles.add(new ArrayList<>(List.of(line.split(" "))));
+//            System.out.println(Arrays.toString(line.split(" ")));
         }
         int boardSize = lines.size();
         int cellSize = 600 / boardSize;
         Canvas canvas = new Canvas(640, 600);
+
         container.getChildren().clear();
-        container.getChildren().add(canvas);
+        Group group = new Group();
+        container.getChildren().add(group);
+        group.getChildren().add(canvas);
+        group.getChildren().add(drawStones(tiles,boardSize,cellSize));
         GraphicsContext gc = canvas.getGraphicsContext2D();
         drawBoard(gc,boardSize,cellSize);
         System.out.println(board);
@@ -186,5 +195,28 @@ public class GoController extends ServerCommunicator {
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(10);
         gc.strokeRect(0, 0, boardSize * cellSize, boardSize * cellSize);
+    }
+
+    public Group drawStones(ArrayList<ArrayList<String >> board, int boardSize, int cellSize){
+            Group group = new Group();
+            for (int i = 0; i < boardSize; i++) {
+                for (int j = 0; j < boardSize; j++) {
+                    double radius = cellSize / 4.0;
+                    double x = i * cellSize + cellSize / 2.0;
+                    double y = j * cellSize + cellSize / 2.0;
+                    String stoneString = board.get(i).get(j).strip();
+                    Map<String,Color> colorMap = Map.of(
+                            "N",Color.TRANSPARENT,
+                            "B", Color.BLACK,
+                            "W",Color.WHITE
+                    );
+                    StoneGUI stone = new StoneGUI(colorMap.get(stoneString), x, y, radius, i, j);
+                    stone.setOnMouseClicked();
+                    group.getChildren().add(stone);
+//                    board[i][j] = stone;
+                }
+            }
+            return group;
+
     }
 }
