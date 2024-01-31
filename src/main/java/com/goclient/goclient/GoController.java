@@ -149,7 +149,7 @@ public class GoController extends ServerCommunicator {
         }
         int boardSize = lines.size();
         int cellSize = 600 / boardSize;
-        Canvas canvas = new Canvas(640, 600);
+        Canvas canvas = new Canvas(600, 600);
 
         container.getChildren().clear();
         Label comm = new Label(communicat);

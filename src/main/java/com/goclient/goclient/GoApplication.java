@@ -14,6 +14,7 @@ public class GoApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 720, 690);
         stage.setTitle("GO");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
 
         GoController controller = fxmlLoader.getController();
