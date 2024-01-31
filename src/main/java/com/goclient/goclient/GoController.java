@@ -215,7 +215,7 @@ public class GoController extends ServerCommunicator {
                 StoneGUI stone = new StoneGUI(colorMap.get(stoneString), x, y, radius, i, j);
                 stone.setOnMouseClicked(event -> {
                     if (waitingForAnswer()) {
-                        sendMessage(stone.getX() + 1 + " " + stone.getY() + 1);
+                        sendMessage((stone.getX() + 1) + " " + (stone.getY() + 1));
                         recieveMessage();
                     }
                 });
