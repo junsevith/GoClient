@@ -123,6 +123,20 @@ public class GoController extends ServerCommunicator {
     @Override
     protected boolean takeMove(String move) {
         waitingForAnswer = true;
+        Button pass = new Button("Pas");
+        pass.setOnMouseClicked(event -> {
+                    sendMessage("pas");
+                });
+        Button resign = new Button("Zrezygnuj");
+        resign.setOnMouseClicked(event -> {
+            sendMessage("resign");
+        });
+        HBox buttonContainer = new HBox(10);
+        buttonContainer.setAlignment(Pos.CENTER);
+        buttonContainer.getChildren().add(pass);
+        buttonContainer.getChildren().add(resign);
+        buttonContainer.setPadding(new javafx.geometry.Insets(10, 0, 0, 0));
+        container.getChildren().add(buttonContainer);
         System.out.println(move);
         return false;
     }
