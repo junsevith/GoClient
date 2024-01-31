@@ -27,6 +27,10 @@ public class GoController extends ServerCommunicator {
 
     public VBox container;
 
+    int blackScore;
+
+    int whiteScore;
+
     @FXML
     protected void initialize() {
         recieveMessage();
@@ -138,12 +142,17 @@ public class GoController extends ServerCommunicator {
         group.getChildren().add(drawStones(tiles, boardSize, cellSize));
         GraphicsContext gc = canvas.getGraphicsContext2D();
         drawBoard(gc, boardSize, cellSize);
+        group.getChildren().add(new Label("Wynik czarnego: " + Integer.toString(blackScore)));
+        group.getChildren().add(new Label("Wynik białego: " + Integer.toString(whiteScore)));
         System.out.println(board);
         return true;
     }
 
     @Override
     protected boolean displayScore(String score) {
+        ArrayList<String> scores = new ArrayList<>(List.of(score.split(" ")));
+        blackScore = Integer.parseInt(scores.getFirst());
+        whiteScore = Integer.parseInt(scores.getLast());
         System.out.println(score);
         return true;
     }
@@ -202,6 +211,7 @@ public class GoController extends ServerCommunicator {
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(10);
         gc.strokeRect(0, 0, boardSize * cellSize, boardSize * cellSize);
+
     }
 
     public Group drawStones(ArrayList<ArrayList<String>> board, int boardSize, int cellSize) {
