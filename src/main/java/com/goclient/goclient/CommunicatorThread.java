@@ -1,13 +1,15 @@
 package com.goclient.goclient;
 
+import javafx.application.Platform;
+
 public class CommunicatorThread extends Thread{
 
     private ServerConnection serverConnection;
-    private GoController goController;
+    private ServerCommunicator serverCommunicator;
 
-    public CommunicatorThread(ServerConnection serverConnection, GoController goController){
+    public CommunicatorThread(ServerConnection serverConnection, ServerCommunicator serverCommunicator){
         this.serverConnection = serverConnection;
-        this.goController = goController;
+        this.serverCommunicator = serverCommunicator;
     }
 
     @Override
@@ -15,7 +17,7 @@ public class CommunicatorThread extends Thread{
         while(true){
             try{
                 String message = serverConnection.getMessage();
-                goController.recieveMessage();
+                Platform.runLater(() -> serverCommunicator.recieveMessage2(message));
             }catch(Exception e){
                 throw new RuntimeException(e);
             }

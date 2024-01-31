@@ -1,11 +1,14 @@
 package com.goclient.goclient;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public abstract class ServerCommunicator {
     private final ServerConnection connection = new ServerConnection();
+    protected final CommunicatorThread communicatorThread = new CommunicatorThread(connection, this);
 
     private final Map<String, Function<String, Boolean>> actionMap = Map.of(
             "ASK", this::askQuestion,
@@ -22,7 +25,7 @@ public abstract class ServerCommunicator {
 
 
 
-    protected void recieveMessage() {
+    protected void recieveMessae() {
         boolean continueChecking = true;
 
         while (continueChecking) {
@@ -47,6 +50,22 @@ public abstract class ServerCommunicator {
             continueChecking = actionMap.get(msg[0]).apply(input);
         }
 
+    }
+
+    protected void recieveMessage2(String input){
+        if (input == null) {
+            System.out.println("Server disconnected");
+            System.exit(0);
+        }
+        String[] msg = input.split("_");
+        if (msg.length > 1) {
+            input = msg[1];
+        }
+            System.out.println(Arrays.toString(msg));
+        if (msg.length>2 && msg[2].strip().equals("true")) {
+            reset();
+        }
+        actionMap.get(msg[0]).apply(input);
     }
     protected abstract boolean askQuestion(String question);
     protected abstract boolean askYesNo(String s);

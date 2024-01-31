@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GoController extends ServerCommunicator {
+
     public Label welcomeText;
 
     public VBox container;
@@ -32,7 +33,8 @@ public class GoController extends ServerCommunicator {
 
     @FXML
     protected void initialize() {
-        recieveMessage();
+        communicatorThread.start();
+//        recieveMessage();
     }
 
     @Override
@@ -46,7 +48,7 @@ public class GoController extends ServerCommunicator {
         container.getChildren().add(confirm);
         confirm.setOnMouseClicked(event -> {
             sendMessage(textField.getText());
-            recieveMessage();
+//            recieveMessage();
         });
 
         System.out.println(question);
@@ -63,12 +65,12 @@ public class GoController extends ServerCommunicator {
         Button yes = new Button("Tak");
         yes.setOnMouseClicked(event -> {
             sendMessage("yes");
-            recieveMessage();
+//            recieveMessage();
         });
         Button no = new Button("Nie");
         no.setOnMouseClicked(event -> {
             sendMessage("no");
-            recieveMessage();
+//            recieveMessage();
         });
         buttonContainer.getChildren().add(yes);
         buttonContainer.getChildren().add(no);
@@ -94,7 +96,7 @@ public class GoController extends ServerCommunicator {
             buttons.add(button);
             button.setOnMouseClicked(event -> {
                 sendMessage(choice);
-                recieveMessage();
+//                recieveMessage();
             });
             buttonContainer.getChildren().add(button);
         }
@@ -112,7 +114,7 @@ public class GoController extends ServerCommunicator {
         container.getChildren().add(confirm);
         confirm.setOnMouseClicked(event -> {
             sendMessage(textField.getText());
-            recieveMessage();
+//            recieveMessage();
         });
         System.out.println(s);
         return false;
@@ -247,7 +249,7 @@ public class GoController extends ServerCommunicator {
                 stone.setOnMouseClicked(event -> {
                     if (waitingForAnswer()) {
                         sendMessage((stone.getX() + 1) + " " + (stone.getY() + 1));
-                        recieveMessage();
+//                        recieveMessage();
                     }
                 });
                 group.getChildren().add(stone);
