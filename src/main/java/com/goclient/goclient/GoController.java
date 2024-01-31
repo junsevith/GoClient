@@ -150,6 +150,11 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean displayText(String text) {
+        ArrayList<String> lines = new ArrayList<>(List.of(text.split("\\|")));
+        for (String line : lines) {
+            container.getChildren().add(new Label(line));
+//            System.out.println(Arrays.toString(line.split(" ")));
+        }
         System.out.println(text);
         return true;
     }
