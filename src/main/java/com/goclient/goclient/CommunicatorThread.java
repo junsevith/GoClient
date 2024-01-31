@@ -19,7 +19,8 @@ public class CommunicatorThread extends Thread{
                 String message = serverConnection.getMessage();
                 Platform.runLater(() -> serverCommunicator.recieveMessage2(message));
             }catch(Exception e){
-                throw new RuntimeException(e);
+                System.out.println("Server disconnected");
+                System.exit(0);
             }
         }
     }
