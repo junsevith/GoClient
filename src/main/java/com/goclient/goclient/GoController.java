@@ -182,8 +182,13 @@ public class GoController extends ServerCommunicator {
     protected boolean displayText(String text) {
         reset();
         ArrayList<String> lines = new ArrayList<>(List.of(text.split("\\|")));
+        VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER_LEFT);
+        container.getChildren().add(vbox);
         for (String line : lines) {
-            container.getChildren().add(new Label(line));
+            Label label = new Label(line);
+            label.setStyle("-fx-font-size: 15;");
+            vbox.getChildren().add(label);
 //            System.out.println(Arrays.toString(line.split(" ")));
         }
         System.out.println(text);
