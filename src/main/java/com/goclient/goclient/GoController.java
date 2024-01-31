@@ -142,8 +142,8 @@ public class GoController extends ServerCommunicator {
         group.getChildren().add(drawStones(tiles, boardSize, cellSize));
         GraphicsContext gc = canvas.getGraphicsContext2D();
         drawBoard(gc, boardSize, cellSize);
-        group.getChildren().add(new Label("Wynik czarnego: " + Integer.toString(blackScore)));
-        group.getChildren().add(new Label("Wynik białego: " + Integer.toString(whiteScore)));
+        container.getChildren().add(new Label("Wynik czarnego: " + Integer.toString(blackScore)));
+        container.getChildren().add(new Label("Wynik białego: " + Integer.toString(whiteScore)));
         System.out.println(board);
         return true;
     }
