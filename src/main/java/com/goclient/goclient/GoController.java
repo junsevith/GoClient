@@ -206,13 +206,13 @@ public class GoController extends ServerCommunicator {
                 double radius = cellSize / 4.0;
                 double x = i * cellSize + cellSize / 2.0;
                 double y = j * cellSize + cellSize / 2.0;
-                String stoneString = board.get(i).get(j).strip();
+                String stoneString = board.get(j).get(i).strip();
                 Map<String, Color> colorMap = Map.of(
                         "N", Color.TRANSPARENT,
                         "B", Color.BLACK,
                         "W", Color.WHITE
                 );
-                StoneGUI stone = new StoneGUI(colorMap.get(stoneString), x, y, radius, i, j);
+                StoneGUI stone = new StoneGUI(colorMap.get(stoneString), x, y, radius, j, i);
                 stone.setOnMouseClicked(event -> {
                     if (waitingForAnswer()) {
                         sendMessage((stone.getX() + 1) + " " + (stone.getY() + 1));
