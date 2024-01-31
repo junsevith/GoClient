@@ -28,9 +28,9 @@ public class GoController extends ServerCommunicator {
 
     public VBox container;
 
-    int blackScore;
+    int black;
 
-    int whiteScore;
+    int white;
 
     String communicat;
 
@@ -161,9 +161,9 @@ public class GoController extends ServerCommunicator {
         group.getChildren().add(drawStones(tiles, boardSize, cellSize));
         GraphicsContext gc = canvas.getGraphicsContext2D();
         drawBoard(gc, boardSize, cellSize);
-        Label bS = new Label("Wynik czarnego: " + Integer.toString(blackScore));
+        Label bS = new Label("Wynik czarnego: " + white);
         bS.setStyle("-fx-font-size: 15;");
-        Label wS = new Label("Wynik białego: " + Integer.toString(whiteScore));
+        Label wS = new Label("Wynik białego: " + black);
         wS.setStyle("-fx-font-size: 15;");
         container.getChildren().add(bS);
         container.getChildren().add(wS);
@@ -174,8 +174,8 @@ public class GoController extends ServerCommunicator {
     @Override
     protected boolean displayScore(String score) {
         ArrayList<String> scores = new ArrayList<>(List.of(score.split(" ")));
-        blackScore = Integer.parseInt(scores.getFirst());
-        whiteScore = Integer.parseInt(scores.getLast());
+        black = Integer.parseInt(scores.getFirst());
+        white = Integer.parseInt(scores.getLast());
         System.out.println(score);
         return true;
     }
