@@ -34,6 +34,7 @@ public class GoController extends ServerCommunicator {
     @FXML
     protected void initialize() {
         communicatorThread.start();
+        container.setAlignment(Pos.CENTER);
 //        recieveMessage();
     }
 
@@ -57,6 +58,7 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean askYesNo(String s) {
+        container.setSpacing(5);
         Label question = new Label(s);
         question.setStyle("-fx-font-size: 15;");
         container.getChildren().add(question);
@@ -90,6 +92,8 @@ public class GoController extends ServerCommunicator {
 //        choices.removeLast(); // tutaj są informacje do konsoli, cała reszta do dostępne opcje
         HBox buttonContainer = new HBox(10);
         buttonContainer.setAlignment(Pos.CENTER);
+//        buttonContainer.setPadding(new javafx.geometry.Insets(5, 0, 0, 0));
+//        question.setPadding(new javafx.geometry.Insets(10, 0, 0, 0));
         List<Button> buttons = new ArrayList<>();
         for (String choice : choices) {
             Button button = new Button(choice);
@@ -152,7 +156,7 @@ public class GoController extends ServerCommunicator {
     protected boolean displayBoard(String board) {
         container.setSpacing(0);
         //container.setStyle("-fx-background-color: lightblue;");
-        container.setAlignment(Pos.CENTER);
+        container.setAlignment(Pos.TOP_CENTER);
         ArrayList<String> lines = new ArrayList<>(List.of(board.split("\\|")));
         ArrayList<ArrayList<String>> tiles = new ArrayList<>();
         for (String line : lines) {
@@ -223,6 +227,7 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected void reset() {
+        container.setAlignment(Pos.CENTER);
         container.getChildren().clear();
     }
 

@@ -11,10 +11,10 @@ public class GoApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(GoApplication.class.getResource("container.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 720, 830);
+        Scene scene = new Scene(fxmlLoader.load(), 720, 760);
         stage.setTitle("GO");
         stage.setScene(scene);
-//        stage.setResizable(false);
+        stage.setResizable(false);
         stage.show();
 
         GoController controller = fxmlLoader.getController();
