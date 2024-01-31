@@ -13,12 +13,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +30,8 @@ public class GoController extends ServerCommunicator {
     int blackScore;
 
     int whiteScore;
+
+    String communicat;
 
     @FXML
     protected void initialize() {
@@ -119,6 +121,7 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean displayMessage(String message) {
+        communicat = message;
         System.out.println(message);
         return true;
     }
@@ -144,6 +147,7 @@ public class GoController extends ServerCommunicator {
         drawBoard(gc, boardSize, cellSize);
         container.getChildren().add(new Label("Wynik czarnego: " + Integer.toString(blackScore)));
         container.getChildren().add(new Label("Wynik białego: " + Integer.toString(whiteScore)));
+        container.getChildren().add(new Label(communicat));
         System.out.println(board);
         return true;
     }
@@ -170,6 +174,12 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean displayError(String message) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("ERROR");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+
         System.out.println(message);
         return true;
     }
@@ -177,7 +187,7 @@ public class GoController extends ServerCommunicator {
     public void onHelloButtonClick(ActionEvent actionEvent) {
         recieveMessage();
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(FirstFrame.class.getResource("hello-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GoApplication.class.getResource("container.fxml"));
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load(), 320, 240);
