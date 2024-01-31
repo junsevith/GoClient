@@ -81,6 +81,7 @@ public class GoController extends ServerCommunicator {
 
     @Override
     protected boolean askChoose(String s) {
+        container.setSpacing(10);
         ArrayList<String> choices = new ArrayList<>(List.of(s.split("%")));
         Label question = new Label(choices.getFirst());
         question.setStyle("-fx-font-size: 15;");
